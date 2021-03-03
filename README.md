@@ -1,16 +1,4 @@
-# !!! Looking for maintainers !!!
-
-[![NPM version][npm-image]][npm-url]
-[![Build Status][travis-image]][travis-url]
-[![Dependency Status][deps-image]][deps-url]
-[![Dev Dependency Status][dev-deps-image]][dev-deps-url]
-[![Code Climate][climate-image]][climate-url]
-
-[![NPM](https://nodei.co/npm/react-contextmenu.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/react-contextmenu/)
-
-# React Contextmenu
-
-ContextMenu in React with accessibility support. Live Examples can be found [here](//vkbansal.github.io/react-contextmenu/)
+# Absolutly not mine, this is a fork that i stole essentially... I just made it so that you can install with newer versions & stuff
 
 ## Table of contents
 
