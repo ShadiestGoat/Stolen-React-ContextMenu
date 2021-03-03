@@ -25,7 +25,6 @@ declare module "react-contextmenu" {
         renderTag?: React.ElementType,
         mouseButton?: number,
         disableIfShiftIsPressed?: boolean,
-        [key: string]: any
     }
 
     export interface MenuItemProps {

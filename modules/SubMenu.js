@@ -1,6 +1,42 @@
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+var _propTypes = require('prop-types');
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
+var _classnames = require('classnames');
+
+var _classnames2 = _interopRequireDefault(_classnames);
+
+var _objectAssign = require('object-assign');
+
+var _objectAssign2 = _interopRequireDefault(_objectAssign);
+
+var _actions = require('./actions');
+
+var _AbstractMenu2 = require('./AbstractMenu');
+
+var _AbstractMenu3 = _interopRequireDefault(_AbstractMenu2);
+
+var _helpers = require('./helpers');
+
+var _globalEventListener = require('./globalEventListener');
+
+var _globalEventListener2 = _interopRequireDefault(_globalEventListener);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
@@ -9,16 +45,6 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-import React from 'react';
-import PropTypes from 'prop-types';
-import cx from 'classnames';
-import assign from 'object-assign';
-
-import { hideMenu } from './actions';
-import AbstractMenu from './AbstractMenu';
-import { callIfExists, cssClasses, hasOwnProp, store } from './helpers';
-import listener from './globalEventListener';
 
 var SubMenu = function (_AbstractMenu) {
     _inherits(SubMenu, _AbstractMenu);
@@ -91,11 +117,11 @@ var SubMenu = function (_AbstractMenu) {
 
             if (_this.props.disabled) return;
 
-            callIfExists(_this.props.onClick, event, assign({}, _this.props.data, store.data), store.target);
+            (0, _helpers.callIfExists)(_this.props.onClick, event, (0, _objectAssign2.default)({}, _this.props.data, _helpers.store.data), _helpers.store.target);
 
             if (!_this.props.onClick || _this.props.preventCloseOnClick) return;
 
-            hideMenu();
+            (0, _actions.hideMenu)();
         };
 
         _this.handleMouseEnter = function () {
@@ -144,7 +170,7 @@ var SubMenu = function (_AbstractMenu) {
             }
         };
 
-        _this.state = assign({}, _this.state, {
+        _this.state = (0, _objectAssign2.default)({}, _this.state, {
             visible: false
         });
         return _this;
@@ -153,7 +179,7 @@ var SubMenu = function (_AbstractMenu) {
     _createClass(SubMenu, [{
         key: 'componentDidMount',
         value: function componentDidMount() {
-            this.listenId = listener.register(function () {}, this.hideSubMenu);
+            this.listenId = _globalEventListener2.default.register(function () {}, this.hideSubMenu);
         }
     }, {
         key: 'getSubMenuType',
@@ -183,11 +209,11 @@ var SubMenu = function (_AbstractMenu) {
                     _this2.subMenu.style.removeProperty('left');
                     _this2.subMenu.style.removeProperty('right');
 
-                    if (hasOwnProp(styles, 'top')) _this2.subMenu.style.top = styles.top;
-                    if (hasOwnProp(styles, 'left')) _this2.subMenu.style.left = styles.left;
-                    if (hasOwnProp(styles, 'bottom')) _this2.subMenu.style.bottom = styles.bottom;
-                    if (hasOwnProp(styles, 'right')) _this2.subMenu.style.right = styles.right;
-                    _this2.subMenu.classList.add(cssClasses.menuVisible);
+                    if ((0, _helpers.hasOwnProp)(styles, 'top')) _this2.subMenu.style.top = styles.top;
+                    if ((0, _helpers.hasOwnProp)(styles, 'left')) _this2.subMenu.style.left = styles.left;
+                    if ((0, _helpers.hasOwnProp)(styles, 'bottom')) _this2.subMenu.style.bottom = styles.bottom;
+                    if ((0, _helpers.hasOwnProp)(styles, 'right')) _this2.subMenu.style.right = styles.right;
+                    _this2.subMenu.classList.add(_helpers.cssClasses.menuVisible);
 
                     _this2.registerHandlers();
                     _this2.setState({ selectedItem: null });
@@ -202,14 +228,14 @@ var SubMenu = function (_AbstractMenu) {
                     _this2.unregisterHandlers();
                 };
                 this.subMenu.addEventListener('transitionend', cleanup);
-                this.subMenu.classList.remove(cssClasses.menuVisible);
+                this.subMenu.classList.remove(_helpers.cssClasses.menuVisible);
             }
         }
     }, {
         key: 'componentWillUnmount',
         value: function componentWillUnmount() {
             if (this.listenId) {
-                listener.unregister(this.listenId);
+                _globalEventListener2.default.unregister(this.listenId);
             }
 
             if (this.opentimer) clearTimeout(this.opentimer);
@@ -235,13 +261,13 @@ var SubMenu = function (_AbstractMenu) {
                 ref: this.menuRef,
                 onMouseEnter: this.handleMouseEnter,
                 onMouseLeave: this.handleMouseLeave,
-                className: cx(cssClasses.menuItem, cssClasses.subMenu, attributes.listClassName),
+                className: (0, _classnames2.default)(_helpers.cssClasses.menuItem, _helpers.cssClasses.subMenu, attributes.listClassName),
                 style: {
                     position: 'relative'
                 }
             };
             var menuItemProps = {
-                className: cx(cssClasses.menuItem, attributes.className, (_cx = {}, _defineProperty(_cx, cx(cssClasses.menuItemDisabled, attributes.disabledClassName), disabled), _defineProperty(_cx, cx(cssClasses.menuItemActive, attributes.visibleClassName), visible), _defineProperty(_cx, cx(cssClasses.menuItemSelected, attributes.selectedClassName), selected), _cx)),
+                className: (0, _classnames2.default)(_helpers.cssClasses.menuItem, attributes.className, (_cx = {}, _defineProperty(_cx, (0, _classnames2.default)(_helpers.cssClasses.menuItemDisabled, attributes.disabledClassName), disabled), _defineProperty(_cx, (0, _classnames2.default)(_helpers.cssClasses.menuItemActive, attributes.visibleClassName), visible), _defineProperty(_cx, (0, _classnames2.default)(_helpers.cssClasses.menuItemSelected, attributes.selectedClassName), selected), _cx)),
                 onMouseMove: this.props.onMouseMove,
                 onMouseOut: this.props.onMouseOut,
                 onClick: this.handleClick
@@ -254,18 +280,18 @@ var SubMenu = function (_AbstractMenu) {
                     top: 0,
                     left: '100%'
                 },
-                className: cx(cssClasses.menu, this.props.className)
+                className: (0, _classnames2.default)(_helpers.cssClasses.menu, this.props.className)
             };
 
-            return React.createElement(
+            return _react2.default.createElement(
                 'nav',
                 _extends({}, menuProps, { role: 'menuitem', tabIndex: '-1', 'aria-haspopup': 'true' }),
-                React.createElement(
+                _react2.default.createElement(
                     'div',
                     _extends({}, attributes, menuItemProps),
                     title
                 ),
-                React.createElement(
+                _react2.default.createElement(
                     'nav',
                     _extends({}, subMenuProps, { role: 'menu', tabIndex: '-1' }),
                     this.renderChildren(children)
@@ -275,22 +301,22 @@ var SubMenu = function (_AbstractMenu) {
     }]);
 
     return SubMenu;
-}(AbstractMenu);
+}(_AbstractMenu3.default);
 
 SubMenu.propTypes = {
-    children: PropTypes.node.isRequired,
-    attributes: PropTypes.object,
-    title: PropTypes.node.isRequired,
-    className: PropTypes.string,
-    disabled: PropTypes.bool,
-    hoverDelay: PropTypes.number,
-    rtl: PropTypes.bool,
-    selected: PropTypes.bool,
-    onMouseMove: PropTypes.func,
-    onMouseOut: PropTypes.func,
-    forceOpen: PropTypes.bool,
-    forceClose: PropTypes.func,
-    parentKeyNavigationHandler: PropTypes.func
+    children: _propTypes2.default.node.isRequired,
+    attributes: _propTypes2.default.object,
+    title: _propTypes2.default.node.isRequired,
+    className: _propTypes2.default.string,
+    disabled: _propTypes2.default.bool,
+    hoverDelay: _propTypes2.default.number,
+    rtl: _propTypes2.default.bool,
+    selected: _propTypes2.default.bool,
+    onMouseMove: _propTypes2.default.func,
+    onMouseOut: _propTypes2.default.func,
+    forceOpen: _propTypes2.default.bool,
+    forceClose: _propTypes2.default.func,
+    parentKeyNavigationHandler: _propTypes2.default.func
 };
 SubMenu.defaultProps = {
     disabled: false,
@@ -313,4 +339,4 @@ SubMenu.defaultProps = {
         return null;
     }
 };
-export default SubMenu;
+exports.default = SubMenu;
